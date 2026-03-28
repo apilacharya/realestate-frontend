@@ -33,15 +33,15 @@ const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 font-outfit">
-      <div className="mb-8">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-6 sm:px-12 lg:px-20 font-outfit">
+      <div className="mb-8 text-center">
         <Link to="/" className="text-3xl font-bold tracking-tight">
           <span className="text-blue-600">RealEstate</span>
           <span className="text-gray-900">Hub</span>
         </Link>
       </div>
 
-      <div className="max-w-2xl w-full space-y-10 bg-white p-10 sm:p-12 border border-gray-100 rounded-3xl shadow-sm">
+      <div className="max-w-2xl w-full space-y-10 bg-white p-12 sm:p-16 border border-gray-100 rounded-3xl shadow-xl shadow-gray-200/50">
         <div>
           <h2 className="text-center text-4xl font-bold text-gray-900 tracking-tight leading-none mb-4">
             Create Account
