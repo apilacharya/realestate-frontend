@@ -3,7 +3,8 @@ import { useFilterStore, type Filters } from '../store/useFilterStore';
 import type { ListingsQueryParams } from '../types/listing';
 
 const ListingFilters: React.FC = () => {
-  const { filters, setFilter, resetFilters } = useFilterStore();
+  const { filters, setFilter, setFilters, resetFilters } = useFilterStore();
+
   
   const [localFilters, setLocalFilters] = useState<ListingsQueryParams>(filters);
 
@@ -29,15 +30,16 @@ const ListingFilters: React.FC = () => {
       'suburb', 'price_min', 'price_max', 'beds', 'baths', 'property_type', 'keyword', 'sort_by'
     ];
     
+    const updates: Partial<Filters> = {};
     filterKeys.forEach(key => {
       const value = localFilters[key];
       if (value !== undefined || key === 'sort_by') {
-        setFilter(key, value as never);
+        updates[key] = value as never;
       }
     });
 
-
-  }, [localFilters, setFilter]);
+    setFilters(updates);
+  }, [localFilters, setFilters, setFilter]);
 
 
   const handleReset = useCallback(() => {

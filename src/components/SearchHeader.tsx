@@ -9,7 +9,7 @@ interface SearchHeaderProps {
 }
 
 const SearchHeader: React.FC<SearchHeaderProps> = ({ onOpenFilters }) => {
-  const { filters, setFilter, resetFilters } = useFilterStore();
+  const { filters, setFilters, resetFilters } = useFilterStore();
   
   const { register, watch, setValue } = useForm({
     defaultValues: {
@@ -23,25 +23,37 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({ onOpenFilters }) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (keyword !== (filters.keyword || '')) {
-        setFilter('page', 1);
-        setFilter('keyword', keyword || undefined);
-      }
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [keyword, setFilter, filters.keyword]);
+      const currentKeyword = keyword || undefined;
+      const storeKeyword = filters.keyword;
+      
+      const currentSort = sortBy as Filters['sort_by'];
+      const storeSort = filters.sort_by;
+      
+      const updates: Partial<Filters> = {};
+      let hasChanges = false;
 
-  useEffect(() => {
-    if (sortBy !== (filters.sort_by || 'newest')) {
-      setFilter('page', 1);
-      setFilter('sort_by', sortBy as Filters['sort_by']);
-    }
-  }, [sortBy, setFilter, filters.sort_by]);
+      if (currentKeyword !== storeKeyword) {
+        updates.keyword = currentKeyword;
+        hasChanges = true;
+      }
+      
+      if (currentSort !== storeSort) {
+        updates.sort_by = currentSort;
+        hasChanges = true;
+      }
+
+      if (hasChanges) {
+        setFilters({ ...updates, page: 1 });
+      }
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [keyword, sortBy, setFilters, filters.keyword, filters.sort_by]);
 
   useEffect(() => {
     setValue('keyword', filters.keyword || '');
     setValue('sort_by', filters.sort_by || 'newest');
   }, [filters.keyword, filters.sort_by, setValue]);
+
 
   const activeFilterCount = Object.entries(filters).filter(([key, value]) => {
     if (key === 'sort_by' || key === 'keyword' || key === 'page' || key === 'limit') return false;

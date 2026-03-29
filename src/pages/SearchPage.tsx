@@ -25,6 +25,20 @@ const SearchPage: React.FC = () => {
 
   const handleRefresh = () => window.location.reload();
 
+  const isSearchInitialMount = React.useRef(true);
+  React.useEffect(() => {
+    if (isSearchInitialMount.current) {
+      isSearchInitialMount.current = false;
+      return;
+    }
+    
+    if (filters.page === 1) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [filters]);
+
+
+
   const renderContent = useMemo(() => {
     if (isLoading) {
       return (
