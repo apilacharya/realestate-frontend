@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { useFilterStore } from '../store/useFilterStore';
+import { useFilterStore, type Filters } from '../store/useFilterStore';
 import type { ListingsQueryParams } from '../types/listing';
 
 const ListingFilters: React.FC = () => {
@@ -25,17 +25,20 @@ const ListingFilters: React.FC = () => {
     setFilter('page', 1);
 
     // Bulk update store filters, excluding non-store parameters like page/limit
-    const filterKeys: (keyof ListingsQueryParams)[] = [
+    const filterKeys: (keyof Filters)[] = [
       'suburb', 'price_min', 'price_max', 'beds', 'baths', 'property_type', 'keyword', 'sort_by'
     ];
     
     filterKeys.forEach(key => {
       const value = localFilters[key];
       if (value !== undefined || key === 'sort_by') {
-        setFilter(key, value);
+        setFilter(key, value as never);
       }
     });
+
+
   }, [localFilters, setFilter]);
+
 
   const handleReset = useCallback(() => {
     resetFilters();
