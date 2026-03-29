@@ -8,7 +8,7 @@ React SPA for browsing property listings with authentication, filtering, and pag
 
 - Node.js 18+
 - pnpm
-- Backend API running (see [backend README](../backend/README.md))
+- Backend API running (see [backend README](https://github.com/apilacharya/realestate-backend))
 
 ## Setup
 
