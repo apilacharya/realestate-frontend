@@ -2,7 +2,7 @@
 
 React SPA for browsing property listings with authentication, filtering, and pagination.
 
-**Live:** https://realestate-frontend-phi.vercel.app
+**Live:** https://realestate-frontend-phi.vercel.app -- Note: Demo Site might feel slower since backend is deployed on free tier service
 
 ## Prerequisites
 
