@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": "https://realestate-backend-9big.onrender.com/api/$1"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

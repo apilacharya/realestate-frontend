@@ -4,7 +4,7 @@ import type { AuthResponse, LoginRequest, RegisterRequest, User } from "../types
 import type { ListingsQueryParams, ListingsResponse, SingleListingResponse } from "../types/listing";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: "/api",
   withCredentials: true,
 });
 
