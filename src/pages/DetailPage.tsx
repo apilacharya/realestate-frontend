@@ -77,12 +77,16 @@ const DetailPage: React.FC = () => {
 
             <div className="bg-white p-10 rounded-[2.5rem] border border-gray-100 shadow-sm relative overflow-hidden">
               {user?.role === 'ADMIN' && (
-                <div className="mb-6 -mx-10 -mt-10 bg-amber-50/60 border-b border-amber-100/80 px-8 py-3 flex items-center gap-3">
-                  <Icon icon="mage:note-text" className="w-4 h-4 text-amber-500 shrink-0" />
-                  <span className="text-xs font-bold text-amber-700 truncate">
+                <div className="mb-6 -mx-10 -mt-10 bg-rose-50/70 border-b border-rose-100/80 px-8 py-3 flex items-center gap-4">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-rose-400 shrink-0">
+                    Internal Admin Only Notes:
+                  </span>
+                  <span className="text-xs font-bold text-rose-800 truncate">
                     {property.internalNotes || "No internal notes."}
                   </span>
                 </div>
+
+
               )}
 
               <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-10 gap-8">
