@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from "react";
 
 interface PaginationProps {
   currentPage: number;
@@ -6,7 +6,11 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+}) => {
   const handlePrevPage = useCallback(() => {
     if (currentPage > 1) onPageChange(currentPage - 1);
   }, [currentPage, onPageChange]);
@@ -15,9 +19,12 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
     if (currentPage < totalPages) onPageChange(currentPage + 1);
   }, [currentPage, totalPages, onPageChange]);
 
-  const handlePageClick = useCallback((page: number) => {
-    onPageChange(page);
-  }, [onPageChange]);
+  const handlePageClick = useCallback(
+    (page: number) => {
+      onPageChange(page);
+    },
+    [onPageChange],
+  );
 
   const pageNumbers = useMemo(() => {
     return [...Array(totalPages)].map((_, i) => i + 1);
@@ -34,7 +41,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
       >
         Previous
       </button>
-      
+
       <div className="flex space-x-2">
         {pageNumbers.map((page) => (
           <button
@@ -42,8 +49,8 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
             onClick={() => handlePageClick(page)}
             className={`w-10 h-10 rounded-lg text-sm font-black transition-all shadow-sm ${
               currentPage === page
-                ? 'bg-blue-600 text-white scale-110 shadow-blue-200'
-                : 'bg-white border border-gray-100 text-gray-600 hover:border-blue-300 hover:text-blue-600'
+                ? "bg-blue-600 text-white scale-110 shadow-blue-200"
+                : "bg-white border border-gray-100 text-gray-600 hover:border-blue-300 hover:text-blue-600"
             }`}
           >
             {page}
@@ -63,4 +70,3 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
 };
 
 export default Pagination;
-

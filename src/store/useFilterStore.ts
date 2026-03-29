@@ -10,6 +10,7 @@ export interface Filters {
   keyword?: string;
   status?: 'available' | 'under_offer' | 'sold';
   sort_by: 'price_asc' | 'price_desc' | 'newest';
+  page: number;
 }
 
 interface FilterState {
@@ -21,6 +22,7 @@ interface FilterState {
 
 const initialFilters: Filters = {
   sort_by: 'newest',
+  page: 1,
 };
 
 export const useFilterStore = create<FilterState>((set) => ({

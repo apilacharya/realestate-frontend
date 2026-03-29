@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Icon } from '@iconify/react';
 import { useAuthStore } from '../store/useAuthStore';
 import { useAuth } from '../hooks/useAuth';
 
@@ -25,29 +26,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
           <nav className="flex items-center space-x-6">
             {user ? (
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-2xl border border-gray-100 shadow-sm transition-all hover:bg-gray-100 hover:border-blue-100 group">
-                  <div className={`p-2 rounded-xl border flex items-center justify-center transition-colors ${
-                    user.role === 'ADMIN' 
-                      ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-200 group-hover:bg-blue-700' 
-                      : 'bg-white border-gray-200 text-gray-700 group-hover:border-blue-500 group-hover:text-blue-600'
-                  }`}>
-                    {user.role === 'ADMIN' ? (
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                      </svg>
-                    ) : (
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                    )}
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-2xl border border-gray-200 shadow-sm transition-all hover:border-blue-200 hover:shadow-md group cursor-default">
+                  <div className="p-2 bg-blue-50 text-blue-600 rounded-xl transition-colors group-hover:bg-blue-600 group-hover:text-white">
+                    <Icon icon="mage:user" className="w-4 h-4" />
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-sm font-bold text-gray-900 leading-none">{user.name}</span>
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-gray-400 mt-1">
-                      {user.role}
-                    </span>
-                  </div>
+                  <span className="text-sm font-black text-gray-800 tracking-tight">{user.name}</span>
                 </div>
                 <button
                   onClick={handleLogout}
@@ -55,9 +39,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   disabled={logout.isPending}
                   title="Logout"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
+                  <Icon icon="mage:logout" className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
                 </button>
               </div>
             ) : (

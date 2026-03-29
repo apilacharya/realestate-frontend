@@ -22,7 +22,7 @@ api.interceptors.response.use(
 
 export default api;
 
-// --- Auth API ---
+//  Auth API 
 export const login = async (data: LoginRequest): Promise<AuthResponse> => {
   const res = await api.post("/auth/login", data);
   return res.data;
@@ -43,7 +43,7 @@ export const getMe = async (): Promise<{ user: User }> => {
   return res.data;
 };
 
-// --- Listings API ---
+//  Listings API 
 export const getListings = async (params: ListingsQueryParams): Promise<ListingsResponse> => {
   const res = await api.get("/listings", { params });
   return res.data;

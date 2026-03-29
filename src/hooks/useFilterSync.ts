@@ -8,7 +8,6 @@ export const useFilterSync = () => {
   const { filters, setFilters } = useFilterStore();
   const isInitialMount = useRef(true);
 
-  // Sync URL -> Store (on mount and URL travel)
   useEffect(() => {
     if (isInitialMount.current) {
       const params: Partial<Filters> = {};
@@ -39,6 +38,9 @@ export const useFilterSync = () => {
 
       const sort_by = searchParams.get('sort_by');
       if (sort_by) params.sort_by = sort_by as Filters['sort_by'];
+
+      const page = searchParams.get('page');
+      if (page) params.page = Number(page);
 
       if (Object.keys(params).length > 0) {
         setFilters(params);

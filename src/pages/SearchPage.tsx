@@ -13,16 +13,15 @@ const SearchPage: React.FC = () => {
   // Sync filters with URL searching parameters
   useFilterSync();
 
-  const { filters } = useFilterStore();
-  const [page, setPage] = useState(1);
+  const { filters, setFilter } = useFilterStore();
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   
-  const { data, isLoading, isError, error } = useListings({ ...filters, page, limit: 12 });
+  const { data, isLoading, isError, error } = useListings({ ...filters, limit: 12 });
 
   const handlePageChange = useCallback((newPage: number) => {
-    setPage(newPage);
+    setFilter('page', newPage);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
+  }, [setFilter]);
 
   const handleRefresh = () => window.location.reload();
 

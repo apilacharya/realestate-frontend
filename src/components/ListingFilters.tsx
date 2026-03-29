@@ -5,7 +5,6 @@ import type { ListingsQueryParams } from '../types/listing';
 const ListingFilters: React.FC = () => {
   const { filters, setFilter, resetFilters } = useFilterStore();
   
-  // Local state for form inputs to prevent unnecessary store updates
   const [localFilters, setLocalFilters] = useState<ListingsQueryParams>(filters);
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -22,6 +21,9 @@ const ListingFilters: React.FC = () => {
   }, []);
 
   const handleSearch = useCallback(() => {
+    // Reset to first page on search
+    setFilter('page', 1);
+
     // Bulk update store filters, excluding non-store parameters like page/limit
     const filterKeys: (keyof ListingsQueryParams)[] = [
       'suburb', 'price_min', 'price_max', 'beds', 'baths', 'property_type', 'keyword', 'sort_by'
@@ -30,7 +32,6 @@ const ListingFilters: React.FC = () => {
     filterKeys.forEach(key => {
       const value = localFilters[key];
       if (value !== undefined || key === 'sort_by') {
-        // @ts-expect-error - dynamic key access
         setFilter(key, value);
       }
     });

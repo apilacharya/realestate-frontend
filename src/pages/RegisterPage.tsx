@@ -3,12 +3,18 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Link } from 'react-router-dom';
+import { Icon } from '@iconify/react';
 import { useAuth } from '../hooks/useAuth';
 
 const registerSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
+  password: z.string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/[A-Z]/, 'Must contain at least one uppercase letter')
+    .regex(/[a-z]/, 'Must contain at least one lowercase letter')
+    .regex(/[0-9]/, 'Must contain at least one number')
+    .regex(/[^A-Za-z0-9]/, 'Must contain at least one special character'),
   confirmPassword: z.string(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
@@ -19,6 +25,8 @@ type RegisterForm = z.infer<typeof registerSchema>;
 
 const RegisterPage: React.FC = () => {
   const { register: registerMutation } = useAuth();
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
 
   const {
     register,
@@ -41,7 +49,7 @@ const RegisterPage: React.FC = () => {
         </Link>
       </div>
 
-      <div className="max-w-2xl w-full space-y-10 bg-white p-12 sm:p-16 border border-gray-100 rounded-3xl shadow-xl shadow-gray-200/50">
+      <div className="max-w-3xl w-full space-y-10 bg-white p-12 sm:p-16 border border-gray-100 rounded-3xl shadow-xl shadow-gray-200/50 text-left">
         <div>
           <h2 className="text-center text-4xl font-bold text-gray-900 tracking-tight leading-none mb-4">
             Create Account
@@ -59,7 +67,7 @@ const RegisterPage: React.FC = () => {
                 type="text"
                 {...register('name')}
                 placeholder="Enter your full name"
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-medium"
+                className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-medium text-gray-900"
               />
               {errors.name && <p className="mt-1 text-xs text-red-600 font-bold">{errors.name.message}</p>}
             </div>
@@ -70,33 +78,51 @@ const RegisterPage: React.FC = () => {
                 {...register('email')}
                 type="email"
                 autoComplete="email"
-                className={`form-input ${errors.email ? 'border-red-500 focus:ring-red-500' : ''}`}
+                className={`w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-medium text-gray-900 ${errors.email ? 'border-red-500 focus:ring-red-500' : ''}`}
                 placeholder="Email address"
               />
               {errors.email && <p className="mt-1 text-xs text-red-600 font-bold">{errors.email.message}</p>}
             </div>
             
-            <div>
+            <div className="relative">
               <label className="block text-sm font-bold text-gray-700 mb-2">Password</label>
-              <input
-                {...register('password')}
-                type="password"
-                autoComplete="new-password"
-                className={`form-input ${errors.password ? 'border-red-500 focus:ring-red-500' : ''}`}
-                placeholder="Password"
-              />
+              <div className="relative group">
+                <input
+                  {...register('password')}
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="new-password"
+                  className={`w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-medium text-gray-900 pr-12 ${errors.password ? 'border-red-500 focus:ring-red-500' : ''}`}
+                  placeholder="Password (min 8 chars, mixed case, numbers, symbols)"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-600 transition-colors p-1"
+                >
+                  <Icon icon={showPassword ? "mage:eye-off" : "mage:eye"} className="w-5 h-5" />
+                </button>
+              </div>
               {errors.password && <p className="mt-1 text-xs text-red-600 font-bold">{errors.password.message}</p>}
             </div>
             
-            <div>
+            <div className="relative">
               <label className="block text-sm font-bold text-gray-700 mb-2">Confirm Password</label>
-              <input
-                {...register('confirmPassword')}
-                type="password"
-                autoComplete="new-password"
-                className={`form-input ${errors.confirmPassword ? 'border-red-500 focus:ring-red-500' : ''}`}
-                placeholder="Confirm password"
-              />
+              <div className="relative group">
+                <input
+                  {...register('confirmPassword')}
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  autoComplete="new-password"
+                  className={`w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-medium text-gray-900 pr-12 ${errors.confirmPassword ? 'border-red-500 focus:ring-red-500' : ''}`}
+                  placeholder="Confirm password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-600 transition-colors p-1"
+                >
+                  <Icon icon={showConfirmPassword ? "mage:eye-off" : "mage:eye"} className="w-5 h-5" />
+                </button>
+              </div>
               {errors.confirmPassword && <p className="mt-1 text-xs text-red-600 font-bold">{errors.confirmPassword.message}</p>}
             </div>
           </div>

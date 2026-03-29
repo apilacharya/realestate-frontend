@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Link } from "react-router-dom";
+import { Icon } from "@iconify/react";
 import { useAuth } from "../hooks/useAuth";
 
 const loginSchema = z.object({
@@ -14,6 +15,7 @@ type LoginForm = z.infer<typeof loginSchema>;
 
 const LoginPage: React.FC = () => {
   const { login } = useAuth();
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const {
     register,
@@ -36,7 +38,7 @@ const LoginPage: React.FC = () => {
         </Link>
       </div>
 
-      <div className="max-w-2xl w-full space-y-10 bg-white p-12 sm:p-16 border border-gray-100 rounded-3xl shadow-xl shadow-gray-200/50">
+      <div className="max-w-2xl w-full space-y-10 bg-white p-12 sm:p-16 border border-gray-100 rounded-3xl shadow-xl shadow-gray-200/50 text-left">
         <div>
           <h2 className="text-center text-4xl font-bold text-gray-900 tracking-tight leading-none mb-4">
             Welcome Back
@@ -69,13 +71,22 @@ const LoginPage: React.FC = () => {
               <label className="block text-sm font-bold text-gray-700 mb-2">
                 Password
               </label>
-              <input
-                {...register("password")}
-                type="password"
-                autoComplete="current-password"
-                className={`w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-medium text-gray-900 ${errors.password ? "border-red-500 focus:ring-red-500/10 focus:border-red-500" : ""}`}
-                placeholder="Enter your password"
-              />
+              <div className="relative group">
+                <input
+                  {...register("password")}
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  className={`w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-medium text-gray-900 pr-12 ${errors.password ? "border-red-500 focus:ring-red-500/10 focus:border-red-500" : ""}`}
+                  placeholder="Enter your password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-600 transition-colors p-1"
+                >
+                  <Icon icon={showPassword ? "mage:eye-off" : "mage:eye"} className="w-5 h-5" />
+                </button>
+              </div>
               {errors.password && (
                 <p className="mt-2 text-xs text-red-600 font-bold">
                   {errors.password.message}

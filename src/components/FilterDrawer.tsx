@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { toast } from 'sonner';
+import { Icon } from '@iconify/react';
 import { useFilterStore } from '../store/useFilterStore';
 import type { Filters } from '../store/useFilterStore';
 
@@ -38,7 +39,7 @@ const FilterDrawer: React.FC<FilterDrawerProps> = ({ isOpen, onClose }) => {
     watch,
   } = useForm<FilterFormData>({
     resolver: zodResolver(filterSchema) as any,
-    defaultValues: filters as any, // Cast for matching store defaults
+    defaultValues: filters as any,
   });
 
   const currentType = watch('property_type');
@@ -51,8 +52,11 @@ const FilterDrawer: React.FC<FilterDrawerProps> = ({ isOpen, onClose }) => {
   }, [isOpen, filters, reset]);
 
   const onApply = (data: FilterFormData) => {
-    // Explicitly cast to Filters to satisfy store type constraints
-    setFilters(data as Partial<Filters>);
+    const newFilters: Partial<Filters> = {
+      ...(data as Partial<Filters>),
+      page: 1
+    };
+    setFilters(newFilters);
     toast.success('Filters applied successfully');
     onClose();
   };
@@ -78,9 +82,7 @@ const FilterDrawer: React.FC<FilterDrawerProps> = ({ isOpen, onClose }) => {
       <div className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col animate-slide-in-right overflow-hidden">
         <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-white sticky top-0 z-10">
           <div className="flex items-center gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-            </svg>
+            <Icon icon="mage:filter" className="w-5 h-5 text-blue-600" />
             <h2 className="text-xl font-bold text-gray-900 tracking-tight">Filters</h2>
           </div>
           <button 
@@ -88,9 +90,7 @@ const FilterDrawer: React.FC<FilterDrawerProps> = ({ isOpen, onClose }) => {
             onClick={onClose}
             className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400 hover:text-gray-900"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <Icon icon="mage:multiply" className="w-6 h-6" />
           </button>
         </div>
 
@@ -202,9 +202,7 @@ const FilterDrawer: React.FC<FilterDrawerProps> = ({ isOpen, onClose }) => {
               onClick={onReset}
               className="flex-1 px-4 py-4 bg-white border border-gray-200 text-gray-600 rounded-xl font-bold hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
+              <Icon icon="mage:refresh" className="w-5 h-5" />
               Reset
             </button>
             <button 

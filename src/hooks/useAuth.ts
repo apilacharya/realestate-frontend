@@ -16,7 +16,7 @@ export const useAuth = () => {
     onSuccess: (data) => {
       setUser(data.user);
       toast.success("Logged in successfully!");
-      navigate('/');
+      navigate('/', { replace: true });
     },
     onError: (err) => {
       toast.error(err.response?.data?.error || "Invalid email or password");
